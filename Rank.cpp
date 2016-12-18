@@ -33,6 +33,7 @@
 
 #include "Rank.h"
 #include "MemoryController.h"
+#include <algorithm>
 
 using namespace std;
 using namespace DRAMSim;

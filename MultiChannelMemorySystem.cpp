@@ -314,6 +314,7 @@ void MultiChannelMemorySystem::InitOutputFiles(string traceFilename)
 
 void MultiChannelMemorySystem::mkdirIfNotExist(string path)
 {
+#ifndef _WIN32
 	struct stat stat_buf;
 	// check if the directory exists
 	if (stat(path.c_str(), &stat_buf) != 0) // nonzero return value on error, check errno
@@ -345,6 +346,7 @@ void MultiChannelMemorySystem::mkdirIfNotExist(string path)
 			abort();
 		}
 	}
+#endif
 }
 
 

@@ -38,6 +38,7 @@
 #include "MemoryController.h"
 #include "MemorySystem.h"
 #include "AddressMapping.h"
+#include <algorithm>
 
 #define SEQUENTIAL(rank,bank) (rank*NUM_BANKS)+bank
 

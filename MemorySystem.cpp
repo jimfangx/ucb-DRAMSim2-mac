@@ -38,7 +38,9 @@
 
 #include "MemorySystem.h"
 #include "IniReader.h"
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 using namespace std;
 

@@ -38,7 +38,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#ifndef _WIN32
 #include <getopt.h>
+#endif
 #include <map>
 #include <list>
 
@@ -383,6 +385,7 @@ int main(int argc, char **argv)
 
 	unsigned numCycles=1000;
 	//getopt stuff
+#ifndef _WIN32
 	while (1)
 	{
 		static struct option long_options[] =
@@ -461,7 +464,7 @@ int main(int argc, char **argv)
 			break;
 		}
 	}
-
+#endif
 	// get the trace filename
 	string temp = traceFileName.substr(traceFileName.find_last_of("/")+1);
 
