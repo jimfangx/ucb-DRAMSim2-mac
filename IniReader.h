@@ -40,16 +40,16 @@
 
 using namespace std;
 
-#define DEFINE_UINT_PARAM(name, paramtype) {#name, &name, UINT, paramtype, false}
-#define DEFINE_STRING_PARAM(name, paramtype) {#name, &name, STRING, paramtype, false}
-#define DEFINE_FLOAT_PARAM(name,paramtype) {#name, &name, FLOAT, paramtype, false}
-#define DEFINE_BOOL_PARAM(name, paramtype) {#name, &name, BOOL, paramtype, false}
-#define DEFINE_UINT64_PARAM(name, paramtype) {#name, &name, UINT64, paramtype, false}
+#define DEFINE_UINT_PARAM(name, paramtype) {#name, &name, _UINT, paramtype, false}
+#define DEFINE_STRING_PARAM(name, paramtype) {#name, &name, _STRING, paramtype, false}
+#define DEFINE_FLOAT_PARAM(name,paramtype) {#name, &name, _FLOAT, paramtype, false}
+#define DEFINE_BOOL_PARAM(name, paramtype) {#name, &name, _BOOL, paramtype, false}
+#define DEFINE_UINT64_PARAM(name, paramtype) {#name, &name, _UINT64, paramtype, false}
 
 namespace DRAMSim
 {
 
-typedef enum _variableType {STRING, UINT, UINT64, FLOAT, BOOL} varType;
+typedef enum _variableType {_STRING, _UINT, _UINT64, _FLOAT, _BOOL} varType;
 typedef enum _paramType {SYS_PARAM, DEV_PARAM} paramType;
 typedef struct _configMap
 {

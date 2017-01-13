@@ -206,7 +206,7 @@ static ConfigMap configMap[] =
 	DEFINE_BOOL_PARAM(DEBUG_POWER,SYS_PARAM),
 	DEFINE_BOOL_PARAM(VIS_FILE_OUTPUT,SYS_PARAM),
 	DEFINE_BOOL_PARAM(VERIFICATION_OUTPUT,SYS_PARAM),
-	{"", NULL, UINT, SYS_PARAM, false} // tracer value to signify end of list; if you delete it, epic fail will result
+	{"", NULL, _UINT, SYS_PARAM, false} // tracer value to signify end of list; if you delete it, epic fail will result
 };
 
 void IniReader::WriteParams(std::ofstream &visDataOut, paramType type)
@@ -219,19 +219,19 @@ void IniReader::WriteParams(std::ofstream &visDataOut, paramType type)
 			switch (configMap[i].variableType)
 			{
 				//parse and set each type of variable
-			case UINT:
+			case _UINT:
 				visDataOut << *((unsigned *)configMap[i].variablePtr);
 				break;
-			case UINT64:
+			case _UINT64:
 				visDataOut << *((uint64_t *)configMap[i].variablePtr);
 				break;
-			case FLOAT:
+			case _FLOAT:
 				visDataOut << *((float *)configMap[i].variablePtr);
 				break;
-			case STRING:
+			case _STRING:
 				visDataOut << *((string *)configMap[i].variablePtr);
 				break;
-			case BOOL:
+			case _BOOL:
 				if (*((bool *)configMap[i].variablePtr))
 				{
 					visDataOut <<"true";
@@ -278,7 +278,7 @@ void IniReader::SetKey(string key, string valueString, bool isSystemParam, size_
 			switch (configMap[i].variableType)
 			{
 				//parse and set each type of variable
-			case UINT:
+			case _UINT:
 				if ((iss >> dec >> intValue).fail())
 				{
 					ERROR("could not parse line "<<lineNumber<<" (non-numeric value '"<<valueString<<"')?");
@@ -289,7 +289,7 @@ void IniReader::SetKey(string key, string valueString, bool isSystemParam, size_
 					DEBUG("\t - SETTING "<<configMap[i].iniKey<<"="<<intValue);
 				}
 				break;
-			case UINT64:
+			case _UINT64:
 				if ((iss >> dec >> int64Value).fail())
 				{
 					ERROR("could not parse line "<<lineNumber<<" (non-numeric value '"<<valueString<<"')?");
@@ -300,7 +300,7 @@ void IniReader::SetKey(string key, string valueString, bool isSystemParam, size_
 					DEBUG("\t - SETTING "<<configMap[i].iniKey<<"="<<int64Value);
 				}
 				break;
-			case FLOAT:
+			case _FLOAT:
 				if ((iss >> dec >> floatValue).fail())
 				{
 					ERROR("could not parse line "<<lineNumber<<" (non-numeric value '"<<valueString<<"')?");
@@ -311,7 +311,7 @@ void IniReader::SetKey(string key, string valueString, bool isSystemParam, size_
 					DEBUG("\t - SETTING "<<configMap[i].iniKey<<"="<<floatValue);
 				}
 				break;
-			case STRING:
+			case _STRING:
 				*((string *)configMap[i].variablePtr) = string(valueString);
 				if (DEBUG_INI_READER)
 				{
@@ -319,7 +319,7 @@ void IniReader::SetKey(string key, string valueString, bool isSystemParam, size_
 				}
 
 				break;
-			case BOOL:
+			case _BOOL:
 				if (valueString == "true" || valueString == "1")
 				{
 					*((bool *)configMap[i].variablePtr) = true;
@@ -463,17 +463,17 @@ bool IniReader::CheckIfAllSet()
 			switch (configMap[i].variableType)
 			{
 				//the string and bool values can be defaulted, but generally we need all the numeric values to be set to continue
-			case UINT:
-			case UINT64:
-			case FLOAT:
+			case _UINT:
+			case _UINT64:
+			case _FLOAT:
 				ERROR("Cannot continue without key '"<<configMap[i].iniKey<<"' set.");
 				return false;
 				break;
-			case BOOL:
+			case _BOOL:
 				*((bool *)configMap[i].variablePtr) = false;
 				DEBUG("\tSetting Default: "<<configMap[i].iniKey<<"=false");
 				break;
-			case STRING:
+			case _STRING:
 				break;
 			}
 		}
@@ -505,10 +505,10 @@ bool IniReader::CheckIfAllSet()
 	}
 
 /* TODO: getter for strings is missing. Probably not that useful though */
-DEF_GETTER(IniReader::getBool, bool, BOOL)
-DEF_GETTER(IniReader::getUint, unsigned int, UINT)
-DEF_GETTER(IniReader::getUint64, uint64_t, UINT64)
-DEF_GETTER(IniReader::getFloat, float, FLOAT)
+DEF_GETTER(IniReader::getBool, bool, _BOOL)
+DEF_GETTER(IniReader::getUint, unsigned int, _UINT)
+DEF_GETTER(IniReader::getUint64, uint64_t, _UINT64)
+DEF_GETTER(IniReader::getFloat, float, _FLOAT)
 
 void IniReader::InitEnumsFromStrings()
 {
