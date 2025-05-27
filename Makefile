@@ -1,3 +1,18 @@
+###############################################################################
+# Platform-specific shared-library settings
+###############################################################################
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)                 # macOS
+    SOEXT      = dylib
+    SHARED     = -dynamiclib
+    SONAMEFLAG = -Wl,-install_name,@rpath/$(LIB_NAME_MACOS)
+else                                      # Linux, FreeBSD, …
+    SOEXT      = so
+    SHARED     = -shared
+    SONAMEFLAG = -Wl,-soname,$(LIB_NAME)
+endif
+###############################################################################
 CXXFLAGS=-DNO_STORAGE -Wall -DDEBUG_BUILD 
 OPTFLAGS=-O3 
 
@@ -31,10 +46,13 @@ all: ${EXE_NAME}
 $(EXE_NAME): $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ $^ 
 	@echo "Built $@ successfully" 
-
+	
+###############################################################################
+# Shared library (portable between Linux and macOS)
+###############################################################################
 $(LIB_NAME): $(POBJ)
-	g++ -g -shared -Wl,-soname,$@ -o $@ $^
-	@echo "Built $@ successfully"
+	$(CXX) $(SHARED) $(CXXFLAGS) $(SONAMEFLAG) -o $@ $^
+	@echo "Built $@ successfully ($(SOEXT))"
 
 $(STATIC_LIB_NAME): $(LIB_OBJ)
 	$(AR) crs $@ $^
